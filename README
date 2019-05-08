@@ -1,0 +1,33 @@
+This application is an advanced (in comparison to FileCrypter)
+file encryption tool.
+
+1. Improvements in this application.
+
+Following improvements have been made when comparing to simple FileCrypter
+- file content is encrypted by randomly generated 16-byte long (128 bit) key
+- encryption key is stored in file header but encrypted with user password
+- file header contains also marker (letter 'THPS') and application version
+to allow future application improvements/extensions.
+
+2. Encrypted file format.
+
+Encrypted file consist of header and payload. Header in version 3 contains
+following data:
+- marker (4B): letters T, H, P and S
+- version (1B): number, starting from 1
+* encryption key (16B): encryption key is encrypted using user password
+# filename length (1B): length of stored original filename
+# filename (*): random bytes added to make key guessing harder
+# marker (4B): same marker as at the beginning of header,
+allows to check if key is correct
+
+In list above (-) marks plaintext data, (*) marks data encrypted with user
+password and (#) marks data encrypted with generated key.
+
+Payload format:
+In version 1, 2, 3: file content encrypted with use of generated key
+
+3. Encryption algorithm.
+
+In version 1, 2, 3: in fact there's no real encryption - only byte XORing with
+generated key.
